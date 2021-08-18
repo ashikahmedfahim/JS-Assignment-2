@@ -1,27 +1,34 @@
 let personName;
 let dob;
 let decreased = false;
-console.log(localStorage.getItem("name"));
+let appended = false;
+
 if (localStorage.getItem("name") == null) {
   do {
     personName = prompt("Please enter your name: ");
   } while (
-    personName  == null ||
-    (personName.length < 1 || personName.split(" ").length < 1)
+    personName == null ||
+    personName.length < 1 ||
+    personName.split(" ").length < 1
   );
   localStorage.setItem("name", personName);
 }
-let textName = document.createElement("P");
+let textName = document.createElement("h1");
 textName.innerHTML = ` Welcome ${localStorage.getItem("name")}`;
 document.body.appendChild(textName);
-if(!localStorage.getItem("dob")){
+if (!localStorage.getItem("dob")) {
   do {
     dob = prompt("Enter your Date of Birht - MM/DD/YYYY");
   } while (dob.length !== 10);
   localStorage.setItem("dob", dob);
 }
 let dobDate = new Date(localStorage.getItem("dob"));
+
 setInterval(() => {
+  if (appended) {
+    let parentNode = document.getElementById("text");
+    parentNode.removeChild(parentNode.childNodes[8]);
+  }
   let currentDate = new Date();
   let SS = currentDate.getSeconds();
   let MM = currentDate.getMinutes();
@@ -51,7 +58,8 @@ setInterval(() => {
     yyyy--;
     mm = mm + 12;
   }
-  let text = document.createElement("P");
+  let text = document.createElement("p");
   text.innerHTML = ` Your age is ${yyyy} years ${mm} months ${dd} days ${HH} hours ${MM} minutes ${SS} seconds`;
   document.body.appendChild(text);
+  appended = true;
 }, 1000);
